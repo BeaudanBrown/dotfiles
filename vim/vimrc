@@ -1,0 +1,100 @@
+" Begin Vundle stuff
+set nocompatible              " be iMproved, required
+filetype off                  " required
+
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+
+call vundle#begin()
+
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+
+" Plugins
+Plugin 'git@github.com:ycm-core/YouCompleteMe.git'  " Code completion
+Plugin 'git@github.com:tpope/vim-surround.git'      " Surround
+Plugin 'git@github.com:ctrlpvim/ctrlp.vim.git'      " Fuzzy file search
+Plugin 'git@github.com:tpope/vim-fugitive.git'      " Git wrapper
+Plugin 'git@github.com:mileszs/ack.vim.git'         " Ack search tool
+Plugin 'git@github.com:airblade/vim-gitgutter.git'  " Gitgutter
+Plugin 'git@github.com:vim-airline/vim-airline.git' " Airline statusline
+
+" Required, plugins available after
+call vundle#end()
+
+filetype plugin indent on " Enabling filetype support provides filetype-specific indenting,
+syntax on " syntax highlighting, omni-completion and other useful settings.
+
+" Keybindings
+" Stop space from moving cursor
+nnoremap <SPACE> <Nop>
+let mapleader = "\<Space>" " Assign space as leader
+nnoremap <leader><leader> <C-^>
+" Ctrl + direction to move between splits
+nnoremap <C-j> <C-W>j
+nnoremap <C-k> <C-W>k
+nnoremap <C-h> <C-W>h
+nnoremap <C-l> <C-W>l
+nnoremap <C-d> <C-d>zz
+nnoremap <C-u> <C-u>zz
+
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor " Use Ag over Grep
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""' " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+  let g:ackprg = 'ag --nogroup --nocolor --column' " Use ag in place of ack
+endif
+
+" Ctrl-p to launch Ctrlp
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP' 
+runtime macros/matchit.vim " Hit `%` on `if` to jump to `else`.
+
+if has ('autocmd') " Remain compatible with earlier versions
+ augroup vimrc     " Source vim configuration upon save
+    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+    autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
+  augroup END
+endif " has autocmd
+
+" various settings
+set autoindent                                    " Minimal automatic indenting for any filetype.
+set smartindent                                   " Better autoindent e.g. extra indent after parens
+set backspace=indent,eol,start                    " Proper backspace behavior.
+set hidden                                        " Possibility to have more than one unsaved buffers.
+set incsearch                                     " Incremental search, hit `<CR>` to stop.
+set ruler                                         " Shows the current line number at the bottom-right
+                                                  " of the screen.
+set wildmenu                                      " Great command-line completion, use `<Tab>` to move
+                                                  " around and `<CR>` to validate.
+set ignorecase                                    " Case insensitive search default
+set smartcase                                     " Case sensitive search if capital in search string
+set confirm                                       " Ask to save instead of failing command requiring save
+set hlsearch                                      " Highlight search matches
+set list
+set showmatch                                     " Highlight matching parens etc
+set laststatus=2                                  " Always show the statusline
+set listchars=tab:>-,trail:~,extends:>,precedes:< " Display trailing whitespace as ~
+set showcmd                                       " Show the command as it is being typed at bottom of screen
+set autoread                                      " Automatically reload file on change
+
+" Hybrid line numbers, relative in visual and absolute other times
+:set number relativenumber
+:augroup numbertoggle
+:  autocmd!
+:  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+:  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+:augroup END
+
+" Only do this part when compiled with support for autocommands.
+if has("autocmd")
+    " Use actual tab chars in Makefiles.
+    autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
+endif
+
+set tabstop=2       " The width of a TAB is set to 2.
+                    " Still it is a \t. It is just that
+                    " Vim will interpret it to be having
+                    " a width of 4.
+set shiftwidth=2    " Indents will have a width of 2
+set softtabstop=2   " Sets the number of columns for a TAB
+set expandtab       " Expand TABs to spaces
