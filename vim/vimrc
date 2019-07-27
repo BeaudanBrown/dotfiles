@@ -11,16 +11,20 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 
 " Plugins
-Plugin 'git@github.com:ycm-core/YouCompleteMe.git'  " Code completion
-Plugin 'git@github.com:tpope/vim-surround.git'      " Surround
-Plugin 'git@github.com:ctrlpvim/ctrlp.vim.git'      " Fuzzy file search
-Plugin 'git@github.com:tpope/vim-fugitive.git'      " Git wrapper
-Plugin 'git@github.com:mileszs/ack.vim.git'         " Ack search tool
-Plugin 'git@github.com:airblade/vim-gitgutter.git'  " Gitgutter
-Plugin 'git@github.com:vim-airline/vim-airline.git' " Airline statusline
+Plugin 'ycm-core/YouCompleteMe'     " Code completion
+Plugin 'tpope/vim-surround'         " Surround
+Plugin 'ctrlpvim/ctrlp.vim'         " Fuzzy file search
+Plugin 'tpope/vim-fugitive'         " Git wrapper
+Plugin 'mileszs/ack.vim'            " Ack search tool
+Plugin 'airblade/vim-gitgutter'     " Gitgutter
+Plugin 'vim-airline/vim-airline'    " Airline statusline
+Plugin 'leafgarland/typescript-vim' " TypeScript highlighting
+Plugin 'morhetz/gruvbox'            " Gruvbox theme
 
 " Required, plugins available after
 call vundle#end()
+
+colorscheme gruvbox "Enable theme
 
 filetype plugin indent on " Enabling filetype support provides filetype-specific indenting,
 syntax on " syntax highlighting, omni-completion and other useful settings.
@@ -76,6 +80,7 @@ set laststatus=2                                  " Always show the statusline
 set listchars=tab:>-,trail:~,extends:>,precedes:< " Display trailing whitespace as ~
 set showcmd                                       " Show the command as it is being typed at bottom of screen
 set autoread                                      " Automatically reload file on change
+set bg=dark                                       " Enable dark mode
 
 " Hybrid line numbers, relative in visual and absolute other times
 :set number relativenumber
