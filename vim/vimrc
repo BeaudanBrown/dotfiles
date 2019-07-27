@@ -41,6 +41,12 @@ nnoremap <C-h> <C-W>h
 nnoremap <C-l> <C-W>l
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
+" Use ; for entering commands
+nnoremap ; :
+" Make 'Y' yank from cursor to end of line
+nnoremap Y y$
+" Clear search with ,/
+nnoremap <silent> ,/ :nohlsearch<CR>
 
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor " Use Ag over Grep
@@ -81,6 +87,8 @@ set listchars=tab:>-,trail:~,extends:>,precedes:< " Display trailing whitespace 
 set showcmd                                       " Show the command as it is being typed at bottom of screen
 set autoread                                      " Automatically reload file on change
 set bg=dark                                       " Enable dark mode
+set updatetime=100                                " Set refresh to 100ms
+set noerrorbells                                  " No beeping
 
 " Hybrid line numbers, relative in visual and absolute other times
 :set number relativenumber
