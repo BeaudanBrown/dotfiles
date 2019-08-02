@@ -33,6 +33,8 @@ let mapleader = "\<Space>" " Assign space as leader
 nnoremap <leader><leader> <C-^>
 " Leader f to search all
 nnoremap <leader>f :Ag 
+" Leader q to quit vim
+nnoremap <leader>q :qall<CR>
 " Leader l to search buffers
 nnoremap <leader>l :Lines<CR>
 " Leader w to save
