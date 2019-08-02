@@ -29,12 +29,23 @@ let $FZF_DEFAULT_COMMAND = 'ag -g ""'
 " Stop space from moving cursor
 nnoremap <SPACE> <Nop>
 let mapleader = "\<Space>" " Assign space as leader
+" Leader leader to swap to most recent buffer
 nnoremap <leader><leader> <C-^>
-" Ctrl + direction to move between splits
-nnoremap <C-j> <C-W>j
-nnoremap <C-k> <C-W>k
-nnoremap <C-h> <C-W>h
-nnoremap <C-l> <C-W>l
+" Leader w to save
+nnoremap <leader>w :w<CR>
+" Alt + direction to move between splits in any mode
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+inoremap <A-h> <C-\><C-N><C-w>h
+inoremap <A-j> <C-\><C-N><C-w>j
+inoremap <A-k> <C-\><C-N><C-w>k
+inoremap <A-l> <C-\><C-N><C-w>l
+nnoremap <A-j> <C-W>j
+nnoremap <A-k> <C-W>k
+nnoremap <A-h> <C-W>h
+nnoremap <A-l> <C-W>l
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
 " Use ; for entering commands
@@ -43,6 +54,10 @@ nnoremap ; :
 nnoremap Y y$
 " Clear search with ,/
 nnoremap <silent> ,/ :nohlsearch<CR>
+" Leader t to open terminal in vertical split
+nnoremap <leader>t :vs term://bash<CR>
+" Map esc to exit terminal mode
+tnoremap <Esc> <C-\><C-n>
 
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor " Use Ag over Grep
@@ -88,6 +103,9 @@ set tabstop=2                                     " The width of a TAB is set to
 set shiftwidth=2                                  " Indents will have a width of 2
 set softtabstop=2                                 " Sets the number of columns for a TAB
 set expandtab                                     " Expand TABs to spaces
+set splitbelow                                    " Horizontal split new window below
+set splitright                                    " Vertical split new window below
+set clipboard+=unnamedplus                        " Default to system clipboard
 
 " Hybrid line numbers, relative in visual and absolute other times
 set number relativenumber
