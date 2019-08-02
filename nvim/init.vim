@@ -1,7 +1,6 @@
 call plug#begin()
 
 " Plugins
-Plug 'ycm-core/YouCompleteMe', { 'do': './install --clang-completer --ts-completer' }  " Code completion
 Plug 'tpope/vim-surround'                                                              " Surround
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }                      " Fuzzy file search
 Plug 'junegunn/fzf.vim'                                                                " Fuzzy file search
