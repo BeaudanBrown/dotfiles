@@ -31,6 +31,10 @@ nnoremap <SPACE> <Nop>
 let mapleader = "\<Space>" " Assign space as leader
 " Leader leader to swap to most recent buffer
 nnoremap <leader><leader> <C-^>
+" Leader f to search all
+nnoremap <leader>f :Ag 
+" Leader l to search buffers
+nnoremap <leader>l :Lines<CR>
 " Leader w to save
 nnoremap <leader>w :w<CR>
 " Alt + direction to move between splits in any mode
@@ -53,7 +57,7 @@ nnoremap ; :
 " Make 'Y' yank from cursor to end of line
 nnoremap Y y$
 " Clear search with ,/
-nnoremap <silent> ,/ :nohlsearch<CR>
+nnoremap <silent> <leader>/ :nohlsearch<CR>
 " Leader t to open terminal in vertical split
 nnoremap <leader>t :vs term://bash<CR>
 " Map esc to exit terminal mode
