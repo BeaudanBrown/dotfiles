@@ -10,6 +10,8 @@ Plug 'airblade/vim-gitgutter'                                                   
 Plug 'vim-airline/vim-airline'                                                         " Airline statusline
 Plug 'leafgarland/typescript-vim'                                                      " TypeScript highlighting
 Plug 'morhetz/gruvbox'                                                                 " Gruvbox theme
+Plug 'scrooloose/nerdtree'                                                             " Nerdtree
+Plug 'Xuyuanp/nerdtree-git-plugin'                                                     " Nerdtree git plugin
 
 call plug#end()
 
@@ -64,6 +66,8 @@ nnoremap <silent> <leader>/ :nohlsearch<CR>
 nnoremap <leader>t :vs term://bash<CR>
 " Map esc to exit terminal mode
 tnoremap <Esc> <C-\><C-n>
+" Toggle nerdtree with leader e
+nnoremap <leader>e :NERDTreeToggle<CR>
 
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor " Use Ag over Grep
@@ -79,6 +83,7 @@ if has ('autocmd') " Remain compatible with earlier versions
     autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
     autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
   augroup END
+  autocmd VimEnter * NERDTree | wincmd p
 endif " has autocmd
 
 " various settings
