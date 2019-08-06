@@ -20,20 +20,6 @@ colorscheme gruvbox                 " Enable theme
 filetype plugin indent on           " Enabling filetype support provides filetype-specific indenting,
 syntax on                           " Syntax highlighting, omni-completion and other useful settings.
 
-" fzf setup
-function! s:find_git_root()
-  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
-endfunction
-command! ProjectFiles execute 'Files' s:find_git_root()
-nnoremap <c-P> :ProjectFiles<CR>
-let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
-
-" Highlighted yank setup
-if !exists('##TextYankPost')
-  map y <Plug>(highlightedyank)
-endif
-let g:highlightedyank_highlight_duration = 200
-
 " Keybindings
 " Stop space from moving cursor
 nnoremap <SPACE> <Nop>
@@ -65,8 +51,6 @@ nnoremap <A-h> <C-W>h
 nnoremap <A-l> <C-W>l
 nnoremap <C-d> <C-d>zz
 nnoremap <C-u> <C-u>zz
-" Use ; for entering commands
-nnoremap ; :
 " Make 'Y' yank from cursor to end of line
 nnoremap Y y$
 " Clear search with ,/
@@ -77,22 +61,6 @@ nnoremap <leader>t :vs term://bash<CR>
 tnoremap <Esc> <C-\><C-n>
 " Toggle nerdtree with leader e
 nnoremap <leader>e :NERDTreeToggle<CR>
-
-if executable('ag')
-  set grepprg=ag\ --nogroup\ --nocolor " Use Ag over Grep
-  let g:ackprg = 'ag --nogroup --nocolor --column' " Use ag in place of ack
-endif
-
-runtime macros/matchit.vim " Hit `%` on `if` to jump to `else`.
-
-if has ('autocmd') " Remain compatible with earlier versions
-  " Use actual tab chars in Makefiles.
-  autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
-  augroup vimrc     " Source vim configuration upon save
-    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
-    autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
-  augroup END
-endif " has autocmd
 
 " various settings
 set autoindent                                    " Minimal automatic indenting for any filetype.
@@ -127,12 +95,41 @@ set splitright                                    " Vertical split new window be
 set clipboard+=unnamedplus                        " Default to system clipboard
 set inccommand=nosplit                            " Show substitute command in real time
 set formatoptions-=cro                            " Disable automatic commenting
+set number relativenumber                         " Relative line numbers as default
 
-" Hybrid line numbers, relative in visual and absolute other times
-set number relativenumber
-augroup numbertoggle
-  autocmd!
-  autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
-  autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
-augroup END
+" fzf setup
+function! s:find_git_root()
+  return system('git rev-parse --show-toplevel 2> /dev/null')[:-2]
+endfunction
+command! ProjectFiles execute 'Files' s:find_git_root()
+nnoremap <c-P> :ProjectFiles<CR>
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+
+" Highlighted yank setup
+if !exists('##TextYankPost')
+  map y <Plug>(highlightedyank)
+endif
+let g:highlightedyank_highlight_duration = 200
+
+if executable('ag')
+  set grepprg=ag\ --nogroup\ --nocolor " Use Ag over Grep
+  let g:ackprg = 'ag --nogroup --nocolor --column' " Use ag in place of ack
+endif
+
+runtime macros/matchit.vim " Hit `%` on `if` to jump to `else`.
+
+if has ('autocmd') " Remain compatible with earlier versions
+  " Use actual tab chars in Makefiles.
+  autocmd FileType make set tabstop=8 shiftwidth=8 softtabstop=0 noexpandtab
+  augroup vimrc     " Source vim configuration upon save
+    autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
+    autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
+  augroup END
+  " Hybrid line numbers, relative in visual and absolute other times
+  augroup numbertoggle
+    autocmd!
+    autocmd BufEnter,FocusGained,InsertLeave * set relativenumber
+    autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
+  augroup END
+endif " has autocmd
 
