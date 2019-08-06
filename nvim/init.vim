@@ -34,8 +34,8 @@ nnoremap <leader>q :qall<CR>
 nnoremap <leader>l :Lines<CR>
 " Leader b to show buffers
 nnoremap <leader>b :Buffers<CR>
-" Leader w to save
-nnoremap <leader>w :w<CR>
+" Leader s to save
+nnoremap <leader>s :w<CR>
 " Alt + direction to move between splits in any mode
 tnoremap <A-h> <C-\><C-N><C-w>h
 tnoremap <A-j> <C-\><C-N><C-w>j
@@ -61,6 +61,8 @@ nnoremap <leader>t :vs term://bash<CR>
 tnoremap <leader><Esc> <C-\><C-n>
 " Toggle nerdtree with leader e
 nnoremap <leader>e :NERDTreeToggle<CR>
+" Leader w to close current buffer but keep split
+nnoremap <silent> <C-w> :call CloseBuffer()<cr>
 
 " various settings
 set autoindent                                    " Minimal automatic indenting for any filetype
@@ -142,4 +144,37 @@ if has ('autocmd') " Remain compatible with earlier versions
     autocmd BufLeave,FocusLost,InsertEnter   * set norelativenumber
   augroup END
 endif " has autocmd
+
+" Close buffer but keep splits
+function! CloseBuffer()
+    let curBuf = bufnr('%')
+    let curTab = tabpagenr()
+    exe 'bnext'
+
+    " If in last buffer, create empty buffer
+    if curBuf == bufnr('%')
+        exe 'enew'
+    endif
+
+    " Loop through tabs
+    for i in range(tabpagenr('$'))
+        " Go to tab (is there a way with inactive tabs?)
+        exe 'tabnext ' . (i + 1)
+        " Store active window nr to restore later
+        let curWin = winnr()
+        " Loop through windows pointing to buffer
+        let winnr = bufwinnr(curBuf)
+        while (winnr >= 0)
+            " Go to window and switch to next buffer
+            exe winnr . 'wincmd w | bnext'
+            " Restore active window
+            exe curWin . 'wincmd w'
+            let winnr = bufwinnr(curBuf)
+        endwhile
+    endfor
+
+    " Close buffer, restore active tab
+    exe 'bd' . curBuf
+    exe 'tabnext ' . curTab
+endfunction
 
