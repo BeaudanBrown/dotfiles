@@ -63,6 +63,8 @@ tnoremap <leader><Esc> <C-\><C-n>
 nnoremap <leader>e :NERDTreeToggle<CR>
 " Leader w to close current buffer but keep split
 nnoremap <silent> <C-w> :call CloseBuffer()<cr>
+tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
+inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
 
 " various settings
 set autoindent                                    " Minimal automatic indenting for any filetype
