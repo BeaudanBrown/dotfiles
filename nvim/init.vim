@@ -57,19 +57,19 @@ nnoremap Y y$
 nnoremap <silent> <leader>/ :nohlsearch<CR>
 " Leader t to open terminal in vertical split
 nnoremap <leader>t :vs term://bash<CR>
-" Map esc to exit terminal mode
-tnoremap <Esc> <C-\><C-n>
+" Map leader-esc to exit terminal mode
+tnoremap <leader><Esc> <C-\><C-n>
 " Toggle nerdtree with leader e
 nnoremap <leader>e :NERDTreeToggle<CR>
 
 " various settings
-set autoindent                                    " Minimal automatic indenting for any filetype.
+set autoindent                                    " Minimal automatic indenting for any filetype
 set smartindent                                   " Better autoindent e.g. extra indent after parens
-set backspace=indent,eol,start                    " Proper backspace behavior.
-set hidden                                        " Possibility to have more than one unsaved buffers.
-set incsearch                                     " Incremental search, hit `<CR>` to stop.
-set ruler                                         " Shows the current line number at the bottom-right of the screen.
-set wildmenu                                      " Great command-line completion, use `<Tab>` to move around.
+set backspace=indent,eol,start                    " Proper backspace behavior
+set hidden                                        " Possibility to have more than one unsaved buffers
+set incsearch                                     " Incremental search, hit `<CR>` to stop
+set ruler                                         " Shows the current line number at the bottom-right of the screen
+set wildmenu                                      " Great command-line completion, use `<Tab>` to move around
 set ignorecase                                    " Case insensitive search default
 set smartcase                                     " Case sensitive search if capital in search string
 set confirm                                       " Ask to save instead of failing command requiring save
@@ -80,22 +80,27 @@ set list                                          " Display trailing whitespace
 set listchars=tab:>-,trail:~,extends:>,precedes:< " Display trailing whitespace as ~
 set showcmd                                       " Show the command as it is being typed at bottom of screen
 set autoread                                      " Automatically reload file on change
+au FocusGained,BufEnter * :silent! !              " Make autoread actually work
+au FocusLost,WinLeave * :silent! noautocmd w      " Make autoread actually work
 set bg=dark                                       " Enable dark mode
 set updatetime=100                                " Set refresh to 100ms
 set noerrorbells                                  " No beeping
 set undofile                                      " Maintain undo history between sessions
 set undodir=~/.vim/undodir//                      " Store undofiles in single directory
 set noswapfile                                    " Disable swapfiles
-set tabstop=2                                     " The width of a TAB is set to 2.
+set tabstop=2                                     " The width of a TAB is set to 2
 set shiftwidth=2                                  " Indents will have a width of 2
 set softtabstop=2                                 " Sets the number of columns for a TAB
 set expandtab                                     " Expand TABs to spaces
 set splitbelow                                    " Horizontal split new window below
-set splitright                                    " Vertical split new window below
+set splitright                                    " Vertical split new window on right
 set clipboard+=unnamedplus                        " Default to system clipboard
 set inccommand=nosplit                            " Show substitute command in real time
 set formatoptions-=cro                            " Disable automatic commenting
 set number relativenumber                         " Relative line numbers as default
+set guicursor=a:blinkwait500                      " Cursor blink wait
+set guicursor=a:blinkon1000                       " Cursor blink on time
+set guicursor=a:blinkoff500                       " Cursor blink off time
 
 " fzf setup
 function! s:find_git_root()
@@ -110,6 +115,10 @@ if !exists('##TextYankPost')
   map y <Plug>(highlightedyank)
 endif
 let g:highlightedyank_highlight_duration = 200
+
+if has('nvim')
+  autocmd BufEnter,BufNew,TermOpen term://* startinsert " Always enter terminal in insert mode
+endif
 
 if executable('ag')
   set grepprg=ag\ --nogroup\ --nocolor " Use Ag over Grep
