@@ -12,6 +12,7 @@ Plug 'leafgarland/typescript-vim'                                               
 Plug 'morhetz/gruvbox'                                                                 " Gruvbox theme
 Plug 'scrooloose/nerdtree'                                                             " Nerdtree
 Plug 'Xuyuanp/nerdtree-git-plugin'                                                     " Nerdtree git plugin
+Plug 'machakann/vim-highlightedyank'                                                   " Highlight yanked text
 
 call plug#end()
 
@@ -25,7 +26,13 @@ function! s:find_git_root()
 endfunction
 command! ProjectFiles execute 'Files' s:find_git_root()
 nnoremap <c-P> :ProjectFiles<CR>
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
+
+" Highlighted yank setup
+if !exists('##TextYankPost')
+  map y <Plug>(highlightedyank)
+endif
+let g:highlightedyank_highlight_duration = 200
 
 " Keybindings
 " Stop space from moving cursor
@@ -39,6 +46,8 @@ nnoremap <leader>f :Ag
 nnoremap <leader>q :qall<CR>
 " Leader l to search buffers
 nnoremap <leader>l :Lines<CR>
+" Leader b to show buffers
+nnoremap <leader>b :Buffers<CR>
 " Leader w to save
 nnoremap <leader>w :w<CR>
 " Alt + direction to move between splits in any mode
@@ -83,7 +92,6 @@ if has ('autocmd') " Remain compatible with earlier versions
     autocmd! BufWritePost $MYVIMRC source % | echom "Reloaded " . $MYVIMRC | redraw
     autocmd! BufWritePost $MYGVIMRC if has('gui_running') | so % | echom "Reloaded " . $MYGVIMRC | endif | redraw
   augroup END
-  autocmd VimEnter * NERDTree | wincmd p
 endif " has autocmd
 
 " various settings
@@ -117,6 +125,8 @@ set expandtab                                     " Expand TABs to spaces
 set splitbelow                                    " Horizontal split new window below
 set splitright                                    " Vertical split new window below
 set clipboard+=unnamedplus                        " Default to system clipboard
+set inccommand=nosplit                            " Show substitute command in real time
+set formatoptions-=cro                            " Disable automatic commenting
 
 " Hybrid line numbers, relative in visual and absolute other times
 set number relativenumber
