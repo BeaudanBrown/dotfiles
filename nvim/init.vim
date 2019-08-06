@@ -101,6 +101,7 @@ set number relativenumber                         " Relative line numbers as def
 set guicursor=a:blinkwait500                      " Cursor blink wait
 set guicursor=a:blinkon1000                       " Cursor blink on time
 set guicursor=a:blinkoff500                       " Cursor blink off time
+set signcolumn=yes                                " Always have space for the git sign
 
 " fzf setup
 function! s:find_git_root()
