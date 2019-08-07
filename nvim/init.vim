@@ -13,6 +13,7 @@ Plug 'morhetz/gruvbox'                                                          
 Plug 'scrooloose/nerdtree'                                                             " Nerdtree
 Plug 'Xuyuanp/nerdtree-git-plugin'                                                     " Nerdtree git plugin
 Plug 'machakann/vim-highlightedyank'                                                   " Highlight yanked text
+Plug 'vim-scripts/ReplaceWithRegister'                                                 " Replace with register
 
 call plug#end()
 
@@ -57,11 +58,13 @@ nnoremap Y y$
 nnoremap <silent> <leader>/ :nohlsearch<CR>
 " Leader t to open terminal in vertical split
 nnoremap <leader>t :vs term://bash<CR>
+" Leader = to resize splits evenly
+nnoremap <leader>= <C-w>=
 " Map leader-esc to exit terminal mode
 tnoremap <leader><Esc> <C-\><C-n>
 " Toggle nerdtree with leader e
 nnoremap <leader>e :NERDTreeToggle<CR>
-" Leader w to close current buffer but keep split
+" Ctrl w to close current buffer but keep split
 nnoremap <silent> <C-w> :call CloseBuffer()<cr>
 tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
 inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
@@ -122,7 +125,7 @@ endif
 let g:highlightedyank_highlight_duration = 200
 
 if has('nvim')
-  autocmd BufEnter,BufNew,TermOpen term://* startinsert " Always enter terminal in insert mode
+  au BufEnter,BufNew,TermOpen * if &buftype == 'terminal' | :startinsert | endif " Always enter terminal in insert mode
 endif
 
 if executable('ag')
