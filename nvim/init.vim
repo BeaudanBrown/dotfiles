@@ -68,6 +68,9 @@ nnoremap <leader>e :NERDTreeToggle<CR>
 nnoremap <silent> <C-w> :call CloseBuffer()<cr>
 tnoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>y
 inoremap <silent> <C-w> <C-\><C-N>:call CloseBuffer()<cr>
+" Toggle 'default' terminal
+nnoremap <A-CR> :call ChooseTerm("term-slider", 1)<CR>
+tnoremap <A-CR> <C-\><C-N>:call ChooseTerm("term-slider", 1)<CR>
 
 " various settings
 set autoindent                                    " Minimal automatic indenting for any filetype
@@ -182,4 +185,30 @@ function! CloseBuffer()
     exe 'bd' . curBuf
     exe 'tabnext ' . curTab
 endfunction
+
+function! ChooseTerm(termname, slider)
+    let pane = bufwinnr(a:termname)
+    let buf = bufexists(a:termname)
+    if pane > 0
+        " pane is visible
+        if a:slider > 0
+            :exe pane . "wincmd c"
+        else
+            :exe "e #"
+        endif
+    elseif buf > 0
+        " buffer is not in pane
+        if a:slider
+            :exe "botright split"
+        endif
+        :exe "buffer " . a:termname
+    else
+        " buffer is not loaded, create
+        if a:slider
+            :exe "botright split"
+        endif
+        :terminal
+        :exe "f " a:termname
+    endif
+endfunction<Paste>
 
