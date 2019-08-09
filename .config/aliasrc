@@ -2,6 +2,7 @@
 alias p="sudo pacman" \
       g="git" \
       ls="ls -ahN --color=auto --group-directories-first" \
-      grep="grep --color=auto"
+      grep="grep --color=auto" \
+      sdn="sudo shutdown -h now"
 
 command -v nvim >/dev/null && alias v="nvim" vi="nvim" vim="nvim" vimdiff="nvim -d" # Use neovim for vim if present.
